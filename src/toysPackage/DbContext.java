@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
+import java.util.Properties;
+import java.io.FileInputStream;
 
 import javax.swing.JOptionPane;
 
@@ -16,7 +17,16 @@ public class DbContext {
 
 	public static Connection DoConnect() {
 		try {	
-			cn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			
+			Properties props = new Properties();
+			props.load(new FileInputStream("tom.properties"));
+			
+			String dbUrl = props.getProperty("dburl");
+			String user = props.getProperty("user");
+			String password = props.getProperty("password");
+			
+			
+			cn = DriverManager.getConnection(dbUrl, user, password);
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex);
 		}
